@@ -1,0 +1,32 @@
+#include<iostream>
+using namespace std;
+
+int v[1000],w[1000],f[1009][1009];//二维数组要开的比边界大，否则结果可能输出不了
+
+int main(){
+    int n,m;
+    scanf("%d %d",&n,&m);
+    for(int i=1;i<=n;i++)
+        scanf("%d %d",&v[i],&w[i]);//物品的序号从1开始
+    for(int i=1;i<=n;i++){//每一行表示某个物品要不要取；
+     for(int j=1;j<=m;j++){//每一列表示当前的背包容量，最大为题目所给容量；i和j均从1开始向左和向下拓展
+         if(j<v[i]){
+        f[i][j]=f[i-1][j];
+//             printf("0 ");
+         }
+         else{
+        f[i][j]=max(f[i-1][j],f[i-1][j-v[i]]+w[i]);//每一层都是从上一层更新来的；当此层容量够的时候，则当前层物品体积
+             //即为上一层更新时的位移差；
+//             printf("1 ");
+         }
+    }
+//        printf("\n");
+    }
+//    for(int i=0;i<=n;i++){
+//     for(int j=0;j<=m;j++)
+//         printf("%d ",f[i][j]);
+//        printf("\n");
+//    }
+//
+    printf("%d",f[n][m]);
+}
