@@ -1,0 +1,42 @@
+#include <iostream>
+
+void Swap(int &a,int &b){
+    int temp=b;
+    b=a;
+    a=temp;
+}
+
+void Print(int *a,int length){
+    for(int i=0;i<length;i++){
+        if(!i)
+            printf("%d",a[i]);
+        else
+            printf(" %d",a[i]);
+    }
+}
+
+void SelectionSort(int *a,int length){
+    for(int i=0;i<length-1;i++){
+        int min=i,j;//min指的是i的下标，交换的也是下标，而不是其中的数，只有最后的swap中才换数
+//        printf("%d  ",min);
+        for(j=i+1;j<length;j++){
+            if(a[min]>a[j])
+                min=j;
+        }
+//        Print(a, length);
+//        printf("\n");
+//        printf("%d  ",min);
+        Swap(a[min], a[i]);
+//        Print(a, length);
+//        printf("\n");
+    }
+}
+
+int main(){
+    int n,a[55];
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+    scanf("%d",&a[i]);
+    SelectionSort(a,n);
+    Print(a,n);
+}
