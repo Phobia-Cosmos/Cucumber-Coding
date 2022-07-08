@@ -1,3 +1,5 @@
+//前缀和模版
+
 #include<iostream>
 int a[10005];
 
@@ -15,6 +17,30 @@ int main(void){
     for(int i=0;i<m;i++){
         scanf("%d",&t);
         printf("%d\n",a[t-1]);//注意下标的取值
+    }
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------------------
+//区间和问题
+
+#include<iostream>
+int a[10005];
+
+int main(void){
+    int n,m,t,q;
+    scanf("%d",&n);
+    a[0]=0;//将a[0]=0,方便求区间和，因为要相减
+    for(int i=1;i<=n;i++){
+        scanf("%d",&a[i]);
+        if(i!=1)
+            a[i]+=a[i-1];
+    }
+//    for(int i=0;i<n;i++)
+//        printf("%d ",a[i]);
+    scanf("%d",&m);
+    for(int i=0;i<m;i++){
+        scanf("%d %d",&t,&q);
+        printf("%d\n",a[q]-a[t-1]);//注意下标的取值
     }
     return 0;
 }
