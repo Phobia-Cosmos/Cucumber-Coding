@@ -1,0 +1,20 @@
+#include<iostream>
+int a[10005];
+
+int main(void){
+    int n,m,t=0;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        scanf("%d",&a[i]);
+        if(i)
+            a[i]+=a[i-1];//输入时直接处理数据
+    }
+//    for(int i=0;i<n;i++)
+//        printf("%d ",a[i]);
+    scanf("%d",&m);
+    for(int i=0;i<m;i++){
+        scanf("%d",&t);
+        printf("%d\n",a[t-1]);//注意下标的取值
+    }
+    return 0;
+}
