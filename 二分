@@ -40,3 +40,42 @@ int upper_bound(int A[],int left,int right,int x){
     }
     return left;
 }
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+//leetcode 35:
+
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int n = nums.size();
+        int left = 0, right = n - 1, ans = n;//ans 初值设置为数组长度可以省略边界条件的判断
+        while (left <= right) {
+            int mid = ((right - left) >> 1) + left;
+            if (target <= nums[mid]) {
+                ans = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int len=nums.size(),mid,left=0,right=len-1;
+        while(left<right){
+            mid=left+(right-left>>1);
+            if(nums[mid]>=target)
+                right=mid;
+            else
+                left=mid+1;
+        }
+        if(target>nums[left])
+            left++;
+        return left;
+    }
+};
+------------------------------------------------------------------------------------------------------------------------------------------------------
