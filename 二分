@@ -1,10 +1,10 @@
-//二分模版大致一样，主要的是对具体问题mid的判定
+//二分模版大致一样，主要的是对具体问题mid的判定;注意位运算的使用，否则会TLE
 #include<cstdio>
 
 int BinarySearch(int A[],int left,int right,int x){
     int mid;
     while(left<right){
-        mid=left+right-left>>1;
+        mid=left+(right-left>>1);
         if(A[mid]==x)
             return x;
         else if(A[mid]>x)
@@ -19,7 +19,7 @@ int BinarySearch(int A[],int left,int right,int x){
 int lower_bound(int A[],int left,int right,int x){
     int mid;
     while(left<right){
-        mid=left+right-left>>1;
+        mid=left+(right-left>>1);
         if(A[mid]>=x)
             right=mid;
         else
@@ -32,7 +32,7 @@ int lower_bound(int A[],int left,int right,int x){
 int upper_bound(int A[],int left,int right,int x){
     int mid;
     while(left<right){
-        mid=left+right-left>>1;
+        mid=left+(right-left>>1);
         if(A[mid]>x)
             right=mid;
         else
