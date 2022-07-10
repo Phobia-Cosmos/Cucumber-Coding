@@ -1,0 +1,33 @@
+//最大子数组和
+
+class Solution {
+public:
+    #define maxn 100000
+    int dp[maxn],f[maxn];
+
+    int maxSubArray(vector<int>& nums) {
+        int len=nums.size(),res=nums[0];
+        dp[0]=nums[0];
+        for(int i=1;i<len;i++){
+            dp[i]=max(nums[i],dp[i-1]+nums[i]);
+            res=res>dp[i]?res:dp[i];
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int pre = 0, maxAns = nums[0];
+        for (const auto &x: nums) {
+            pre = max(pre + x, x);
+            maxAns = max(maxAns, pre);
+        }
+        return maxAns;
+    }
+};
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------
