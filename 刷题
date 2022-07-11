@@ -1,0 +1,71 @@
+//斐波那契数列
+------------------------------------------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <cstring>
+
+const int maxn=(int)1e4+7;
+int dp[maxn];
+int res[2][2],tmp[2][2]={{1,0},{0,1}};
+
+//递归写法（记忆化搜索）
+int F(int n){
+    if(n==1||n==2)return 1;
+    if(dp[n]!=-1)return dp[n];
+    else{
+        dp[n]=F(n-1)+F(n-2);
+        dp[n]%=10007;
+        return dp[n];
+    }
+}
+
+int main(void){
+    int n;
+    scanf("%d",&n);
+//递推写法
+//    int f1=1,f2=1;
+//    for(int i=3;i<=n;i++){
+//        f2=f1+f2;
+//        f1=f2-f1;
+//        f2%=10007;
+//    }
+    memset(dp, -1, sizeof(dp));
+    printf("%d\n",F(n));
+    return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+//矩阵快速幂
+#include <vector>
+#include <iostream>
+using namespace std;
+
+const int MOD = 1000000007;
+
+vector<vector<long> > Multiply(vector<vector<long> >a,vector<vector<long> >b){
+    vector<vector<long> > res={{0,0},{0,0}};
+    for(int i=0;i<a.size();i++)
+        for(int j=0;j<b[0].size();j++)
+            for(int k=0;k<b.size();k++){
+                res[i][j]+=a[i][k]*b[k][j];
+                res[i][j]%=MOD;
+            }
+    return res;
+}
+
+vector<vector<long> > MatrixPower(vector<vector<long> > base,int expo){
+    vector<vector<long> > ret={{1,0},{0,1}};
+    for(;expo;expo>>=1){
+        if(expo&1)
+            ret=Multiply(ret,base);
+        base=Multiply(base,base);
+    }
+    return ret;
+}
+
+int F(int n){
+    if(n<2)return n;
+    vector<vector<long> > base={{0,1},{1,1}};
+    vector<vector<long> > res=MatrixPower(base,n-1);
+    return (int)res[1][1];
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------
