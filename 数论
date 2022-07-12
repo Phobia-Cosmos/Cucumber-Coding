@@ -1,0 +1,37 @@
+//埃式筛法 O(nloglogn)------------------------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+
+using namespace std;
+
+bool st[100001000];
+int cnt=0;
+
+int Prime(int n){
+    for(int i=2;i<=n;i++)
+        if(!st[i]){
+            cnt++;
+            for(int j=1;j*i<=n;j++)
+                st[j*i]=true;
+        }
+    return cnt;
+}
+
+void PrimePro(int n){
+    for(int i=2;i<=n;i++){
+        if(st[i])
+            continue;
+        cnt++;
+        //只有质数才进入下面的循环进行筛选
+        for(int j=i;j<=n/i;j++)
+            st[j*i]=true;
+    }
+}
+
+int main(void){
+    int n;
+    cin>>n;
+    PrimePro(n);
+    cout<<cnt;
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------------------------------
