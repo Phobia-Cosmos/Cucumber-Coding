@@ -1,0 +1,71 @@
+//二叉排序树-----------------------------------------------------------------------------------------------
+
+//#include<cstdio>
+//#include<iostream>
+//
+//using namespace std;
+//
+//int HashTable[1010]={0};
+//
+////构造函数的直接赋值，不用在手动赋值
+//struct TNode{
+//    int data;
+//    struct TNode *left,*right;
+//    TNode(int x):data(x),left(NULL),right(NULL){}
+//};
+//
+////注意函数返回类型，左右节点的赋值
+//TNode *InsertCreation(TNode *T,int val){
+//    if(!T)
+//        T=new TNode(val);
+//    else if(val<T->data)
+//        T->left=InsertCreation(T->left, val);
+//    else
+//        T->right=InsertCreation(T->right, val);
+//    return T;
+//}
+//
+//void PostOrder(TNode *T){
+//    if(T){
+//        PostOrder(T->left);
+//        PostOrder(T->right);
+//        printf("%d ",T->data);
+//    }
+//}
+//
+//void InOrder(TNode *T){
+//    if(T){
+//        InOrder(T->left);
+//        printf("%d ",T->data);
+//        InOrder(T->right);
+//    }
+//}
+//
+//void PreOrder(TNode *T){
+//    if(T){
+//        printf("%d ",T->data);
+//    PreOrder(T->left);
+//    PreOrder(T->right);
+//    }
+//}
+//
+//int main(){
+//    TNode *T(NULL);
+//    int n,x;
+//    scanf("%d",&n);
+//
+//    for(int i=0;i<n;i++){
+//
+//        scanf("%d",&x);
+//        if(!HashTable[x])
+//        T=InsertCreation(T,x);
+//        //二叉排序树的创建一定要返回树的节点
+//        HashTable[x]++;
+//    }
+//
+//    PreOrder(T);
+//    printf("\n");
+//    InOrder(T);
+//    printf("\n");
+//    PostOrder(T);
+//}
