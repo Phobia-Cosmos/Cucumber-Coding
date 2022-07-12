@@ -33,3 +33,65 @@ void MergeSort2(int A[],int n){
                 Merge(A, i, mid, mid+1, fmin(i+step-1,n));
         }
 }
+//QucikSort---------------------------------------------------------------------------------------------------------------------------------------------
+
+#include<ctime>
+#include<cmath>
+#include <cstdlib>
+#include <algorithm>
+
+using namespace std;
+
+int Partition(int A[],int left,int right){
+    int temp=A[left];
+    while(left<right){
+        while(A[right]>temp&&left<right)right--;
+        A[left]=A[right];
+        while(A[left]<=temp&&left<right)left++;
+        A[right]=A[left];
+    }
+            A[left]=temp;
+    return left;
+}
+
+void QuickSort(int A[],int left,int right){
+    if(left<right){
+        int pos=Partition(A, left, right);
+        QuickSort(A, left, pos-1);
+        QuickSort(A, pos+1, right);
+        //pos位置不进行排序，对其左右子区间进行排序，相当于pos为有序位置
+    }
+}
+
+//优化版快排
+int RandPartition(int A[],int left,int right){
+    int p=(round(1.0*rand()/RAND_MAX*(right-left)+left));
+    swap(A[p],A[left]);
+    int temp=A[left];
+    while(left<right){
+        while(A[right]>temp&&left<right)right--;
+        A[left]=A[right];
+        while(A[left]<=temp&&left<right)left++;
+        A[right]=A[left];
+    }
+            A[left]=temp;
+    return left;
+}
+
+//随机选择算法O(n)；返回值根据题目确定;解决第K大问题
+int RandSelect(int A[],int left,int right,int K){
+    if(left==right) return A[left];
+    int p=RandPartition(A, left, right);
+    int M=p-left+1;//第几个数
+    if(K==M) return A[p];
+    if(K<M)
+        return RandSelect(A, left, p-1, K);         //选出来的第p个数不参与递归
+    else
+        return RandSelect(A, p+1, right, K-M);
+}
+
+int main(void){
+    srand((unsigned)time(NULL));
+    //调用函数
+}
+
