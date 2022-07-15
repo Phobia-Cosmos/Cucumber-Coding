@@ -35,3 +35,169 @@ int main(void){
     return 0;
 }
 ------------------------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+typedef long long LL;
+
+//最大公约数 最小公倍数-------------------------------------------------------------------------------------
+LL gcd(LL a,LL b){
+    return !b?a:gcd(b,a%b);
+}
+
+LL lcm(LL a,LL b){
+    return a/gcd(a, b)*b;
+}
+------------------------------------------------------------------------------------------------------------------------------------
+//分数的四则运算-------------------------------------------------------------------------------------
+struct Fraction{
+    LL up,down;
+    //乘除运算时可能会越界
+};
+
+Fraction reduction(Fraction result){
+    if(result.down<0){
+        result.up=-result.up;
+        result.down=-result.down;
+    }
+    if(result.up==0)
+        result.down=1;
+    else{
+        LL c=gcd(result.up, result.down);
+        result.up/=c;
+        result.down/=c;
+    }
+    return result;
+}
+
+Fraction Add(Fraction f1,Fraction f2){
+    Fraction result;
+    result.up=f1.up*f2.down+f2.up*f1.down;
+    result.down=f1.down*f2.down;
+    return reduction(result);
+}
+
+Fraction Minu(Fraction f1,Fraction f2){
+    Fraction result;
+    result.up=f1.up*f2.down-f2.up*f1.down;
+    result.down=f1.down*f2.down;
+    return reduction(result);
+}
+
+Fraction Multi(Fraction f1,Fraction f2){
+    Fraction result;
+    result.up=f1.up*f2.up;
+    result.down=f1.down*f2.down;
+    return reduction(result);
+}
+
+Fraction Divide(Fraction f1,Fraction f2){
+    if(f2.up==0) return f1;
+    Fraction result;
+    result.up=f1.up*f2.down;
+    result.down=f1.down*f2.up;
+    return reduction(result);
+}
+
+void ShowResult(Fraction result){
+    result=reduction(result);
+    if(result.down==1)
+        printf("%lld",result.up);
+    else if(abs(result.up)>abs(result.down))
+        printf("%lld %lld/%lld",result.up/result.down,result.up%result.down,result.down);
+    else
+        printf("%lld/%lld",result.up,result.down);
+}
+------------------------------------------------------------------------------------------------------------------------------------
+//质因子分解-------------------------------------------------------------------------------------
+const int maxn=100010;
+
+struct factor{
+    int x,expo;
+}fac[10];       //fac数组存放不同的质数，所以数组开到10则可以满足int类型
+
+bool Is_Prime(int n){
+    if(n<2)return false;
+    int sqr=(int)sqrt(1.0*n);
+    for(int i=2;i<=sqr;i++)
+        if(n%i==0)
+            return false;
+    return true;
+}
+
+int prime[maxn],pNum=0;         //int类型的数据，素数表开到1e5即可
+void Find_Prime(){
+    for(int i=1;i<maxn;i++)
+        if(Is_Prime(i))
+            prime[pNum++]=i;
+}
+
+int main(void){
+    Find_Prime();
+    int n,num=0;
+    scanf("%d",&n);
+    if(n==1) printf("1=1");
+    else{
+        printf("%d=",n);
+        int sqr=(int)sqrt(1.0*n);       //用来和素数表中的数进行比较
+        for(int i=0;i<pNum&&prime[i]<=sqr;i++){         //i是用来循环素数表的，对素数表进行操作
+            if(n%prime[i]==0){
+                fac[num].x=prime[i];
+                fac[num].expo=0;           //先初始化为0，while循环中进行计数
+                while(n%prime[i]==0){
+                    fac[num].expo++;
+                    n/=prime[i];        //条件判断的时候不要用！，尤其是有乘除运算的时候
+                }
+                num++;      //不同的质因子个数
+            }
+            if(n==1)break;        //防止无效循环至sqrt和pNum
+        }
+        if(n!=1){
+            fac[num].x=n;
+            fac[num++].expo=1;
+        }
+    }
+    for(int i=0;i<num;i++){
+        if(i>0)printf("*");
+        printf("%d",fac[i].x);
+        if(fac[i].expo>1)
+            printf("^%d",fac[i].expo);
+    }
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------------------------------
+//大整数运算-------------------------------------------------------------------------------------
+struct bign{
+    int d[1000];
+    int len;
+    bign(){
+        memset(d, 0, sizeof d);
+        len=0;
+    }
+};
+
+bign Change(char str[]){
+    bign res;
+    res.len=(int)strlen(str);
+    for(int i=0;i<res.len;i++)
+        res.d[i]=str[res.len-1-i]-'0';
+    return res;
+}
+
+int Compare(bign a,bign b){
+    if(a.len>b.len)return 1;
+    else if(a.len<b.len) return -1;
+    else{
+        for(int i=a.len-1;i>=0;i--){
+            if(a.d[i]>b.d[i]) return  1;
+            else if(a.d[i]<b.d[i]) return -1;
+        }
+    }
+    return 0;
+}
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------
