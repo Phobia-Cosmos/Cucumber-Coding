@@ -197,4 +197,121 @@ public:
     }
 }；
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+//PAT A1013
+
+//图的DFS
+#include <cstdio>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+const int maxn=1010;
+
+vector<int> G[maxn];
+bool vis[maxn];
+
+int n,m,k,currentPoint;
+
+void dfs(int u){
+    //遍历到删除的点时，可以直接返回（加速）
+    if(u==currentPoint)return;
+    vis[u]=true;
+    for(int i=0;i<G[u].size();i++){
+        int v=G[u][i];
+        if(!vis[v])
+            dfs(v);
+    }
+}
+
+int main(void){
+    scanf("%d %d %d",&n,&m,&k);
+    for(int i=0;i<m;i++){
+        int a,b;
+        scanf("%d %d",&a,&b);
+        G[a].push_back(b);
+        G[b].push_back(a);
+    }
+    for(int i=0;i<k;i++){
+        int ans=0;
+        scanf("%d",&currentPoint);
+        memset(vis, 0, sizeof vis);
+        for(int u=1;u<=n;u++){
+            if(!vis[u]&&u!=currentPoint){
+                dfs(u);
+                ans++;
+            }
+        }
+        printf("%d\n",ans-1);
+    }
+    return 0;
+}
+
+//并查集
+#include <cstdio>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+const int maxn=1010;
+
+int f[maxn],n,m,k;
+bool vis[maxn];
+vector<int> G[maxn];
+
+void init(){
+    for(int i=1;i<=n;i++){
+        f[i]=i;
+        vis[i]=0;
+    }
+}
+
+int Find(int x){
+    return x==f[x]?x:f[x]=Find(f[x]);
+}
+
+void Union(int &x,int &y){
+    x=Find(x);
+    y=Find(y);
+    if(x!=y)
+        f[x]=y;
+}
+
+int main(void){
+    scanf("%d %d %d",&n,&m,&k);
+    for(int i=0;i<m;i++){
+        int a,b;
+        scanf("%d %d",&a,&b);
+        G[a].push_back(b);
+        G[b].push_back(a);
+    }
+    int currentPoint;
+    for(int i=0;i<k;i++){
+        scanf("%d",&currentPoint);
+        init();         //每次都init一次，省去了memset（init中已经将vis赋值）
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<G[i].size();j++){
+                int u=i,v=G[i][j];
+                if(u==currentPoint||v==currentPoint)continue;
+                Union(u,v);
+            }
+        }
+        int block=0;
+        for(int i=1;i<=n;i++){
+            if(i==currentPoint)continue;
+            if(!vis[Find(i)]){          //路径压缩时已经将所有的节点指向一个父节点，只需要判断此节点
+                block++;            //父节点的个数即为连通快的个数
+                vis[Find(i)]=true;
+            }
+        }
+        printf("%d\n",block-1);
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------
