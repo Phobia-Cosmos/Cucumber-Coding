@@ -307,7 +307,82 @@ int main(void){
     }
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+//AcWing 周赛 分糖果4497------------------------------------------------------------------------------------------------------------------------------
 
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+const int maxn=25;
+
+struct bign{
+    int d[maxn];
+    int len;
+    bign(){
+        len=0;
+        memset(d,0,sizeof d);
+    }
+};
+
+int n;
+char a[maxn],b[maxn],c[maxn];
+
+bign change(char x[]){
+    bign a;
+    a.len=(int)strlen(x);
+    for(int i=0;i<a.len;i++)
+        a.d[i]=x[a.len-i-1]-'0';
+    return a;
+}
+
+bign add(bign a,bign b){
+    bign c;
+    int carry=0;
+    for(int i=0;i<a.len||i<b.len;i++){
+        c.d[c.len++]=(a.d[i]+b.d[i]+carry)%10;
+        carry=(a.d[i]+b.d[i]+carry)/10;
+    }
+    if(carry)c.d[c.len++]=carry;
+    return c;
+}
+
+bign divide(bign a,int b){
+    int r=0;
+    bign c;
+    c.len=a.len;
+    for(int i=a.len-1;i>=0;i--){
+        r=r*10+a.d[i];
+        if(r<b)c.d[i]=0;
+        else{
+            c.d[i]=r/b;
+            r=r%b;
+        }
+    }
+    while(c.len-1>=1&&c.d[c.len-1]==0){
+        c.len--;
+    }
+    return c;
+}
+
+void print(bign a){
+    for(int i=a.len-1;i>=0;i--){
+        printf("%d",a.d[i]);
+    }
+}
+
+int main(){
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        scanf("%s %s %s",a,b,c);
+        bign m=change(a),n=change(b),l=change(c);
+        m=add(m,n);
+        m=add(m,l);
+        m=divide(m,2);
+        print(m);
+        printf("\n");
+    }
+    return 0;
+}
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
