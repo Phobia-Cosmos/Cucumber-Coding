@@ -1,0 +1,59 @@
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
+//子集生成
+
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int A[20];
+void print_subset(int n,int *B,int cur){                //需要全局数组记录下标;排序对应的是有序数组
+    for(int i=0;i<cur;i++)printf("%d ",B[A[i]]);
+    printf("\n");
+    int s=cur?A[cur-1]+1:0;
+    for(int i=s;i<n;i++){
+        A[cur]=i;
+        print_subset(n, B, cur+1);
+    }
+}
+
+void print_subset(int n,int *A){
+    vector<string> B{""};
+    for(int i=0;i<n;i++){
+        for(int j=(int)B.size();j--;)
+            B.push_back(B[j]+to_string(A[i]));
+    }
+    for(auto v:B){
+        cout<<v<<endl;
+    }
+}
+
+int main(void){
+    int A[]={3,1,5};
+    sort(A, A+3);
+    print_subset(3,A);
+    print_subset(3, A, 0);
+    return 0;
+}
+
+#include <iostream>
+
+int A[]={1,3,5};
+
+void print_subset(int n,int s){
+    for(int i=0;i<n;i++)
+        if(s&(1<<i))printf("%d ",A[i]);
+    printf("\n");
+}
+
+int main(void){
+    int n;
+    scanf("%d",&n);
+    for(int i=0;i<(1<<n);i++)
+        print_subset(n, i);
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
